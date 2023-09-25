@@ -5,9 +5,9 @@ def units():
     con = sqlite3.Connection("units.db")
     cur = con.cursor()
     cur.execute("""
-            CREATE TABLE IF NOT EXIST units (
+            CREATE TABLE IF NOT EXISTS units (
                 UnitId INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE ,
-                UnitName TEXT,
+                UnitName TEXT UNIQUE,
                 HourlyRate REAL DEFAULT '0',
                 AvailabilityStatus BOOLEAN
     )""")
@@ -15,11 +15,11 @@ def units():
     con.close()
 
 
-def addUnits(UnitId, HourlyRate, AvailabilityStatus):
+def addUnits(UnitName, HourlyRate, AvailabilityStatus):
     con = sqlite3.Connection("units.db")
     cur = con.cursor()
-    cur.execute("""INSERT INTO units (UnitId, HourlyRate, AvailabilityStatus) VALUES (?,?,?)""",
-                (UnitId, HourlyRate, AvailabilityStatus))
+    cur.execute("""INSERT INTO units (UnitName, HourlyRate, AvailabilityStatus) VALUES (?,?,?)""",
+                (UnitName, HourlyRate, AvailabilityStatus))
     con.commit()
     con.close()
 

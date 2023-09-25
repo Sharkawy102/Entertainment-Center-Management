@@ -3,6 +3,15 @@ from tkinter import Button, Entry, Label, Listbox, ttk, Menu
 from datetime import datetime, timedelta
 import time
 import tkinter.messagebox as messagebox
+import db_Units_for_Rent as itemsunit
+
+
+
+units = itemsunit.viewUnits()
+for unit in units:
+    print(unit)
+
+
 
 # Global variables to track the start time and rental status for each unit
 unit_start_times = [None] * 6
