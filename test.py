@@ -1,22 +1,49 @@
-# import db_Units_for_Rent as items
-# items.units()
-# # items.addUnits("Number 1", 10, True)
-# # items.addUnits("Number 2", 10, True)
-# # items.addUnits("Number 3", 10, True)
-# # items.addUnits("Number 4", 10, True)
-# # items.addUnits("Number 5", 10, True)
-# # items.addUnits("Number 6", 10, True)
-# units = items.viewUnits()
-# for unit in units:
-#     print(unit)
-import tkinter as tk
-from tkinter import ttk
-import sqlite3
 import db_Units_for_Rent as iii
-# Define your SQLite database functions here
-# Example: units(), start_rent(i), stop_rent(i), add_item(i), checkout(i)
+import sqlite3
+from tkinter import ttk
+import tkinter as tk
+import db_Units_for_Rent as items
+items.units()
+
+
+units = items.viewUnits()
+
+for unit in units:
+    print(unit)
+
+
+items.units()
+
+# Fetch unit information from the database
+unit_infos = items.viewUnits()
+
+# Create a dictionary to map unit names to their corresponding AvailabilityStatus
+unit_availability = {unit_info[1]: bool(
+    unit_info[3]) for unit_info in unit_infos}
 
 # Function to create UI elements for a unit
+
+
+def start_rent(unit_info):
+    # Update the availability status to False (0) in the database
+    items.updateStatus(unit_info, AvailabilityStatus=0)
+    # Update the corresponding status_label text
+    status_label = status_labels[unit_info]
+    status_label_text = "Status: {}".format(
+        "READY" if unit_availability[unit_info] else "NOT READY")
+    status_label.config(text=status_label_text,
+                        fg="green" if unit_availability[unit_info] else "red")
+
+
+def stop_rent(unit_info):
+    # Update the availability status to False (0) in the database
+    items.updateStatus(unit_info, AvailabilityStatus=1)
+    # Update the corresponding status_label text
+    status_label = status_labels[unit_info]
+    status_label_text = "Status: {}".format(
+        "READY" if unit_availability[unit_info] else "NOT READY")
+    status_label.config(text=status_label_text,
+                        fg="green" if unit_availability[unit_info] else "red")
 
 
 def create_unit_ui(unit_info):
@@ -38,9 +65,9 @@ def create_unit_ui(unit_info):
     counter_label = tk.Label(frame, text="", font=("Helvetica", 10))
     counter_label.pack()
     counter_labels.append(counter_label)
-
+    print("AvailabilityStatus:", unit_info["AvailabilityStatus"])
     status_label_text = "Status: {}".format(
-        "READY" if unit_info["AvailabilityStatus"] else "NOT READY")
+        "READY" if unit_info["AvailabilityStatus"] == 1 else "NOT READY")
     status_label = tk.Label(frame, text=status_label_text,
                             fg="green" if unit_info["AvailabilityStatus"] else "red", font=("Helvetica", 10, "bold"))
     status_label.pack()
@@ -55,11 +82,11 @@ def create_unit_ui(unit_info):
                     background="lightgray", font=("Helvetica", 12))
 
     start_button = ttk.Button(frame, text="Start Rent",
-                              command=lambda: start_rent(unit_info["UnitId"]))
+                              command=lambda:   start_rent(unit_info["UnitName"]))
     start_button.pack(side="left")
 
     stop_button = ttk.Button(frame, text="Stop Rent",
-                             command=lambda: stop_rent(unit_info["UnitId"]))
+                             command=lambda: stop_rent(unit_info["UnitName"]))
     stop_button.pack(side="left")
 
     add_item_button = ttk.Button(
@@ -80,7 +107,7 @@ main_window.title("Unit Management")
 start_time_labels = []
 stop_time_labels = []
 counter_labels = []
-status_labels = []
+status_labels = [""]
 rent_cost_labels = []
 
 # Create UI elements for each unit
@@ -88,7 +115,7 @@ for unit_info in unit_infos:
     create_unit_ui({
         "UnitId": unit_info[0],
         "UnitName": unit_info[1],
-        "AvailabilityStatus": bool(unit_info[2])
+        "AvailabilityStatus": bool(unit_info[3])
     })
 
 main_window.mainloop()
