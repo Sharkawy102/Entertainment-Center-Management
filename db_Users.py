@@ -57,5 +57,5 @@ def login(username, password, role):
 # login("admin1@entertainment.com", "1234567890", "Admin")
 # login("admin1@entertainment.com", "1234567890", "Employee")
 # login("Employe1@entertainment.com", "1234567890", "Employee")
-# print(viewUsers("Admin"))
+print(viewUsers("Admin"))
 # print(viewUsers("Employee"))

@@ -1,5 +1,6 @@
 # This is the Login_Page class created for E.C.O.M
 # Importing libraries..
+import AdminPanel as AP
 from customtkinter import *
 from PIL import Image
 import db_Users as Users
@@ -90,7 +91,10 @@ class LoginPage:
             role = Users.login(userName, password, "Admin")
             role = Users.login(userName, password, "Employee")
             if role == "Admin":
-                print('admin')
+                self.login_page.destroy()
+                Admin_window1 = AP.AdminPanel()
+                print("Admin")
+                Admin_window1.run()
             elif role == "Employee":
                 self.login_page.destroy()
                 employee_window1 = EW.EmployeeWindow()
