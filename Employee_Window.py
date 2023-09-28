@@ -34,3 +34,9 @@ class EmployeeWindow:
 
     def run(self):
         self.EmployeeWindow.mainloop()
+
+
+
+if __name__ == "__main__":
+    login_page = EmployeeWindow()
+    login_page.run()
