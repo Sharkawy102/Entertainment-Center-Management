@@ -28,8 +28,8 @@ class AdminPanel:
         screen_height = self.main_page.winfo_screenheight()
 
         # Set the window's dimensions
-        window_width = 600
-        window_height = 480
+        window_width = 1240
+        window_height = 680
 
         # Calculate the x and y coordinates for the window to be centered
         x = (screen_width - window_width) // 2

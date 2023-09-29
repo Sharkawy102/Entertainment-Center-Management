@@ -88,9 +88,11 @@ class LoginPage:
         def checkRole():
             userName = userEntry.get()
             password = passEntry.get()
-            role = Users.login(userName, password, "Admin")
-            role = Users.login(userName, password, "Employee")
-            if role == "Admin":
+
+            role = Users.login(userName, password)
+            # role = Users.login(userName, password, "Employe")
+            if role == "AAA":
+                print("aaa")
                 self.login_page.destroy()
                 Admin_window1 = AP.AdminPanel()
                 print("Admin")
@@ -100,6 +102,11 @@ class LoginPage:
                 employee_window1 = EW.EmployeeWindow()
                 print("Employee2")
                 employee_window1.run()
+            elif role == "Employer":
+                self.login_page.destroy()
+                Admin_window1 = AP.AdminPanel()
+                print("Admin")
+                Admin_window1.run()
 
         CTkButton(master=frame, text="Login", image=login_icon, fg_color="#419197", hover_color="#12486B",
                   font=("Dungeon", 22), text_color="#ffffff", height=40, width=225,
